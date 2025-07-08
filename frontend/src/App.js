@@ -1,27 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import LoginForm from "./components/LoginForm";
-import TodosPage from "./pages/TodosPage";
+import TodoList from "./components/TodoList";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("token")
-  );
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  const handleLoginSuccess = () => {
+    setLoggedIn(true);
+  };
 
   return (
     <div>
-      <h1>Todo App</h1>
-      {isLoggedIn ? (
-        <>
-          <TodosPage />
-          <button onClick={() => {
-            localStorage.removeItem("token");
-            setIsLoggedIn(false);
-          }}>
-            Logout
-          </button>
-        </>
+      {loggedIn ? (
+        <TodoList />
       ) : (
-        <LoginForm onLogin={() => setIsLoggedIn(true)} />
+        <LoginForm onLoginSuccess={handleLoginSuccess} />
       )}
     </div>
   );

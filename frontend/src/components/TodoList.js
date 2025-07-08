@@ -1,69 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
 
-const API_URL = 'http://localhost:4000/api/todos';
-
-export default function TodoList() {
+function TodoList() {
   const [todos, setTodos] = useState([]);
-  const [title, setTitle] = useState('');
+  const [input, setInput] = useState("");
 
-  // Carrega todos ao iniciar
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  const fetchTodos = async () => {
-    const res = await axios.get(API_URL);
-    setTodos(res.data.data);
+  const addTodo = () => {
+    if (input.trim() === "") return;
+    setTodos([...todos, { id: Date.now(), text: input, completed: false }]);
+    setInput("");
   };
 
-  const createTodo = async () => {
-    if (title.trim() === '') return;
-    await axios.post(API_URL, { todo: { title, completed: false } });
-    setTitle('');
-    fetchTodos();
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
-  const toggleCompleted = async (todo) => {
-    await axios.put(`${API_URL}/${todo.id}`, {
-      todo: { ...todo, completed: !todo.completed }
-    });
-    fetchTodos();
-  };
-
-  const deleteTodo = async (id) => {
-    await axios.delete(`${API_URL}/${id}`);
-    fetchTodos();
+  const removeTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
     <div>
-      <h1>To-Do List</h1>
-
+      <h2>Minha To-Do List</h2>
       <input
         type="text"
-        placeholder="Nova tarefa"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Digite uma tarefa"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && addTodo()}
       />
-      <button onClick={createTodo}>Adicionar</button>
+      <button onClick={addTodo}>Adicionar</button>
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
-            <span
-              style={{
-                textDecoration: todo.completed ? 'line-through' : 'none',
-                cursor: 'pointer'
-              }}
-              onClick={() => toggleCompleted(todo)}
-            >
-              {todo.title}
-            </span>
-            <button onClick={() => deleteTodo(todo.id)}>Excluir</button>
+          <li key={todo.id} style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            {todo.text}
+            <button onClick={() => removeTodo(todo.id)} style={{ marginLeft: 8 }}>
+              Remover
+            </button>
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
+export default TodoList;

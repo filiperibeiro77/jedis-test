@@ -45,3 +45,10 @@ import_config "#{config_env()}.exs"
 config :hiring_test_backend, HiringTestBackend.Auth.Guardian,
   issuer: "hiring_test_backend",
   secret_key: "ixSWsvdGkiKBrya4SeZuiXWCUnUt/IhzdV9CPVHM2aGQR1OoQbokhDW2p1Qx8Lp"
+
+config :hiring_test_backend, HiringTestBackendWeb.Auth,
+  secret_key: "ixSWsvdGkiKBrya4SeZuiXWCUnUt/IhzdV9CPVHM2aGQR1OoQbokhDW2p1Qx8Lp"
+
+config :hiring_test_backend, :jwt_secret, "ixSWsvdGkiKBrya4SeZuiXWCUnUt/IhzdV9CPVHM2aGQR1OoQbokhDW2p1Qx8Lp"
+
+config :joken, default_signer: "ixSWsvdGkiKBrya4SeZuiXWCUnUt/IhzdV9CPVHM2aGQR1OoQbokhDW2p1Qx8Lp"

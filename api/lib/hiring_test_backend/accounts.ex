@@ -103,12 +103,22 @@ defmodule HiringTestBackend.Accounts do
   end
 
   def authenticate_user(email, password) do
-    case Repo.get_by(User, email: email) do
-      nil ->
-        {:error, :unauthorized}
+    user = Repo.get_by(User, email: email)
+    IO.inspect(user, label: "User from DB")
 
+    case user do
+      nil ->
+        IO.puts("User not found")
+        {:error, :unauthorized}
       user ->
-        Bcrypt.check_pass(user, password)
+        case Bcrypt.check_pass(user, password) do
+          {:ok, _user} = ok ->
+            IO.puts("Password valid")
+            ok
+          {:error, reason} = error ->
+            IO.puts("Password invalid: #{inspect(reason)}")
+            error
+        end
     end
   end
 end
