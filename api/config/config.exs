@@ -41,3 +41,7 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
+
+config :hiring_test_backend, HiringTestBackend.Auth.Guardian,
+  issuer: "hiring_test_backend",
+  secret_key: "ixSWsvdGkiKBrya4SeZuiXWCUnUt/IhzdV9CPVHM2aGQR1OoQbokhDW2p1Qx8Lp"

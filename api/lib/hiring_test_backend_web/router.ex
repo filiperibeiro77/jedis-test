@@ -6,8 +6,10 @@ defmodule HiringTestBackendWeb.Router do
   end
 
   scope "/api", HiringTestBackendWeb do
-    pipe_through :api
+    pipe_through [:api, HiringTestBackendWeb.Auth.Pipeline]
+
     resources "/todos", TodoController, except: [:new, :edit]
+    post "/login", SessionController, :create
   end
 
   # Enables LiveDashboard only for development
