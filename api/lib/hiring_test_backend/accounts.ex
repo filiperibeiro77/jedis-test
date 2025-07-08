@@ -103,11 +103,12 @@ defmodule HiringTestBackend.Accounts do
   end
 
   def authenticate_user(email, password) do
-    user = Repo.get_by(User, email: email)
+    case Repo.get_by(User, email: email) do
+      nil ->
+        {:error, :unauthorized}
 
-    case Bcrypt.check_pass(user, password) do
-      {:ok, user} -> {:ok, user}
-      _ -> {:error, :unauthorized}
+      user ->
+        Bcrypt.check_pass(user, password)
     end
   end
 end

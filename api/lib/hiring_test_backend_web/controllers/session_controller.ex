@@ -1,6 +1,5 @@
 defmodule HiringTestBackendWeb.SessionController do
   use HiringTestBackendWeb, :controller
-
   alias HiringTestBackend.Accounts
   alias HiringTestBackend.Auth.Guardian
 
@@ -13,7 +12,7 @@ defmodule HiringTestBackendWeb.SessionController do
       {:error, _reason} ->
         conn
         |> put_status(:unauthorized)
-        |> json(%{error: "Invalid email or password"})
+        |> json(%{error: "Invalid credentials"})
     end
   end
 end
