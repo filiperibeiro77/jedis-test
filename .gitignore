@@ -1,0 +1,28 @@
+# Build artifacts
+_build/
+cover/
+
+# Dependencies
+deps/
+
+# Elixir specific
+*.beam
+erl_crash.dump
+*.ez
+
+# Elixir Dialyzer PLT files
+.dialyzer_plt
+
+# VS Code
+.vscode/
+
+# Editor specific
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test coverage (if using something like ExCoveralls directly)
+tmp/
+priv/static/
